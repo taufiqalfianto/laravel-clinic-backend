@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('doctor_id')->constrained('doctors');
             $table->string('day');
-            $table->time('time');
+            $table->time('time_start');
             $table->string('status')->default('active');
             $table->string('note')->nullable();
-
             $table->timestamps();
         });
     }

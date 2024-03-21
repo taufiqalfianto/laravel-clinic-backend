@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -10,19 +11,18 @@ class DoctorScheduleSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run():void
+    public function run(): void
     {
         //create doctor schedule
-        \App\Models\DoctorSchedule::create([
-            'doctor_id' => 1,
-            'day' => 'Monday',
-            'time' => '08:00 - 12:00'
-        ]);
+        $hour = rand(0, 23);
+        $currentTime = Carbon::createFromTime($hour, rand(0, 59), rand(0, 59));
+
 
         //auto generate doctor schedule
-        \App\Models\Doctor::all()->each(function ($doctor) {
+        \App\Models\Doctor::all()->each(function ($doctor) use ($currentTime) {
             \App\Models\DoctorSchedule::factory()->count(3)->create([
-                'doctor_id' => $doctor->id
+                'doctor_id' => $doctor->id,
+                'time' => $currentTime
             ]);
         });
     }
